@@ -193,4 +193,11 @@ defmodule Cards.CardsTest do
              |> Enum.filter(fn card -> card.color == "black" end)
              |> Enum.count()
   end
+
+  test "pick ordered deck of card should grab first card" do
+    new_deck = Deck.create_deck()
+    %{card: card, deck: deck} = Deck.pick_one(new_deck)
+    assert card == %Cards.Card{color: "black", power: 2, suit: "club", value: "2"}
+    assert 51 == Enum.count(deck)
+  end
 end

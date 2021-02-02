@@ -9,4 +9,8 @@ defmodule Cards.Deck do
   def create_deck do
     for suit <- @suits, value <- @values, do: Card.new(suit, value)
   end
+
+  def shuffle(cards), do: Enum.shuffle(cards)
+
+  def pick_one([picked | other_cards]), do: %{card: picked, deck: other_cards}
 end
