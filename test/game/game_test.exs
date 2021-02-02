@@ -71,4 +71,12 @@ defmodule Game.GameTest do
     assert msg == "You can't grab another Card. Its croupier turn."
     assert 259 == Enum.count(game.cards)
   end
+
+  test "game summary" do
+    player_card = Cards.Deck.create_card("spade", "2")
+    croupier_card = Cards.Deck.create_card("spade", "3")
+    {:ok, bet} = Bets.Bets.create_bet(%{"card-odd": "croupier"})
+    game = %Game.Game{bet: bet, player_card: player_card, croupier_card: croupier_card}
+    Game.Game.game_summary(game)
+  end
 end

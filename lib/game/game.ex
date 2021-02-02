@@ -41,7 +41,8 @@ defmodule Game.Game do
   end
 
   defp bet_summary(game) do
-    game
+    card_odd = Round.Round.play(game.player_card.power, game.croupier_card.power)
+    Bets.summary(game.bet, game.player_card, game.croupier_card, card_odd)
   end
 
   defp round_summary(game) do
@@ -50,7 +51,6 @@ defmodule Game.Game do
       other -> "Round won: #{other}"
     end
   end
-
 
   def grab_croupier_card(game) when game.player_card == nil do
     {:error, "Player grab card first"}
