@@ -39,4 +39,28 @@ defmodule Game.GameTest do
     game = Game.Game.new() |> Game.Game.shuffle_deck_of_card()
     assert 260 = Enum.count(game.cards)
   end
+
+  test "grab user card should set player power and returns others 259 cards" do
+    game = Game.Game.new()
+    card = Enum.at(game.cards, 0)
+    {:ok, game} = Game.Game.grab_player_card(game)
+    assert card.power == game.player_value
+    assert 259 == Enum.count(game.cards)
+  end
+
+  test "grab player card after user card should set croupier power and returns others 258 cards" do
+    game = Game.Game.new()
+    {:ok, game} = Game.Game.grab_player_card(game)
+    card = Enum.at(game.cards, 0)
+    {:ok, game} = Game.Game.grab_croupier_card(game)
+    assert card.power == game.croupier_value
+    assert 258 == Enum.count(game.cards)
+  end
+
+  test "grab croupier card before user card should return error and information" do
+    game = Game.Game.new()
+    {:error, msg} = Game.Game.grab_croupier_card(game)
+    assert msg == "Player grab card first"
+    assert 260 == Enum.count(game.cards)
+  end
 end
