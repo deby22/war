@@ -4,7 +4,8 @@ defmodule Game.GameTest do
   doctest War
 
   test "test create new empty Game" do
-    assert Game.Game.new() == %Game.Game{}
+    game = Game.Game.new()
+    assert game.bet == nil
   end
 
   test "test put bet if another exist should return error with information" do
@@ -29,9 +30,13 @@ defmodule Game.GameTest do
              "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
   end
 
-  test "game create deck built from 5 original decks of card" do
+  test "new game build deck built from 5 original decks of card" do
     game = Game.Game.new()
-    game = Game.Game.create_deck_of_card(game)
     assert 260 == Enum.count(game.cards)
+  end
+
+  test "game shuffle deck of card at least 30 times" do
+    game = Game.Game.new() |> Game.Game.shuffle_deck_of_card()
+    assert 260 = Enum.count(game.cards)
   end
 end

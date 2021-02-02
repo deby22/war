@@ -14,7 +14,11 @@ defmodule Cards.Deck do
     for suit <- @suits, value <- @values, _ <- 1..ammount, do: Card.new(suit, value)
   end
 
-  def shuffle(cards), do: Enum.shuffle(cards)
+  def shuffle(cards) do
+    IO.inspect("Shuffling deck of Card")
+    Enum.shuffle(cards)
+  end
+
   def shuffle(cards, times) when times <= 0, do: shuffle(cards)
   def shuffle(cards, times), do: shuffle(cards, times - 1)
 
