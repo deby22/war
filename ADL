@@ -5,6 +5,7 @@ Komponent kart
 		- Talia do gry ma 52 karty. Te karty są uniwersalne i niezmienne
 		- Są gry w których nie wszystkie karty biorą udział w rozgrywce
 		- Są gry w których karty specjalne (J, Q, K, A) mają inne wartości
+		- Karty możemy trakować jako odpowiedniki normalnych kart, lub jako konkretne gry biorące udział w grze
 	- Decyzja:
 		- Moduł kart traktujemy jako standardowa talia kart.
 	- Skutki:
