@@ -1,0 +1,34 @@
+Komponent kart
+	- Data:
+		- 02.02.2020 (13:30)
+	- Kontekst:
+		- Talia do gry ma 52 karty. Te karty są uniwersalne i niezmienne
+		- Są gry w których nie wszystkie karty biorą udział w rozgrywce
+		- Są gry w których karty specjalne (J, Q, K, A) mają inne wartości
+	- Decyzja:
+		- Moduł kart traktujemy jako standardowa talia kart.
+	- Skutki:
+		- Jeśli będzie potrzeba zbudowania gry z niepełbym składem kart, lub innymi wartościami, to trzeba będzie wynieść moduł walidacji do gry
+		- Aktualnie najszybsze rozwiązanie
+		- Karty są niezależne od gry i zakładu, co daje dużą elastyczność
+	- Status:
+		- podjęta
+
+
+Walidacja kart i zakładu
+	- Data:
+		- 02.02.20202 (13:43)
+	- Kontekst:
+		– W którym miejscu powinna być Walidacja koloru i figury kart.
+		- Ta sama walidacja powinna być przy tworzeniu karty oraz podczas budowania zakładu
+		- Kolor i figury kart nie zmieniają się od dawna, więc nawet zdublowana logika nie będzie się często zmieniała
+		- Bardziej prawdopodobne jest stworzenie nowych zakładów niż wprowadzenie nowej gry
+    	- Decyzja:
+		- cała walidacja zrealizowana w kontekście "Zakładu"
+    	- Wynik/Skutki
+		- W przypadku wprowadzonia gry z niepełnym składem kart spowoduje przebudowę w grze, kartach i zakładzie
+		- Najłatwiejsze w implementacji
+		- Jeśli nie wprowadzimy gier z innym składkiem gier, to jest to najmniej kosztowne rozwiązanie
+    	- Status
+		- podjęta
+
