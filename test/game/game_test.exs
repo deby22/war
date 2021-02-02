@@ -44,7 +44,7 @@ defmodule Game.GameTest do
     game = Game.Game.new()
     card = Enum.at(game.cards, 0)
     {:ok, game} = Game.Game.grab_player_card(game)
-    assert card.power == game.player_value
+    assert card == game.player_card
     assert 259 == Enum.count(game.cards)
   end
 
@@ -53,7 +53,7 @@ defmodule Game.GameTest do
     {:ok, game} = Game.Game.grab_player_card(game)
     card = Enum.at(game.cards, 0)
     {:ok, game} = Game.Game.grab_croupier_card(game)
-    assert card.power == game.croupier_value
+    assert card == game.croupier_card
     assert 258 == Enum.count(game.cards)
   end
 

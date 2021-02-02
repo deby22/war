@@ -1,5 +1,5 @@
 defmodule Game.Game do
-  defstruct bet: nil, cards: [], player_value: nil, croupier_value: nil
+  defstruct bet: nil, cards: [], player_card: nil, croupier_card: nil
   alias Bets.Bets
 
   def new do
@@ -23,23 +23,42 @@ defmodule Game.Game do
     %Game.Game{game | cards: cards}
   end
 
-  def grab_player_card(game) when game.player_value != nil do
+  def grab_player_card(game) when game.player_card != nil do
     {:error, "You can't grab another Card. Its croupier turn."}
   end
 
   def grab_player_card(game) do
     [grabbed | others] = game.cards
     game = %Game.Game{game | cards: others}
-    {:ok, %Game.Game{game | player_value: grabbed.power}}
+    {:ok, %Game.Game{game | player_card: grabbed}}
   end
 
-  def grab_croupier_card(game) when game.player_value == nil do
+  def game_summary(game) do
+    %{
+      round_summary: round_summary(game),
+      bet_summary: bet_summary(game)
+    }
+  end
+
+  defp bet_summary(game) do
+    game
+  end
+
+  defp round_summary(game) do
+    case Round.Round.play(game.player_card.power, game.croupier_card.power) do
+      "war" -> "war"
+      other -> "Round won: #{other}"
+    end
+  end
+
+
+  def grab_croupier_card(game) when game.player_card == nil do
     {:error, "Player grab card first"}
   end
 
   def grab_croupier_card(game) do
     [grabbed | others] = game.cards
     game = %Game.Game{game | cards: others}
-    {:ok, %Game.Game{game | croupier_value: grabbed.power}}
+    {:ok, %Game.Game{game | croupier_card: grabbed}}
   end
 end
