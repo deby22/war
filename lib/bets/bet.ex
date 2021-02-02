@@ -5,16 +5,9 @@ defmodule Bets.Bet do
             "color-player": nil,
             "suit-croupier": nil
 
-  def create_bet(bet) do
-    try do
-      {:ok, validate_bet(struct(Bets.Bet, bet))}
-    rescue
-      e in ValidationError ->
-        {:error, e.message}
-    end
-  end
 
-  defp validate_bet(bet = %Bets.Bet{}) do
+
+  def validate_bet(bet = %Bets.Bet{}) do
     bet
     |> validate_suit_player()
     |> validate_suit_croupier()
