@@ -18,6 +18,7 @@ defmodule Game.GameTest do
   test "game shuffle deck of card at least 30 times" do
     game = Game.new()
     game = Game.shuffle_deck_of_card(game)
+    assert game.shuffled_times == 30
     assert 260 = Enum.count(game.cards)
   end
 

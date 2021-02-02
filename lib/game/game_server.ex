@@ -15,6 +15,10 @@ defmodule Game.GameServer do
     GenServer.call(@name, :get_bet)
   end
 
+  def shuffle_cards do
+    GenServer.cast(@name, :shuffle)
+  end
+
   # Server
   def handle_call({:new_bet, bet}, _from, state) do
     case GameManager.create_bet(state, bet) do
@@ -28,5 +32,10 @@ defmodule Game.GameServer do
 
   def handle_call(:get_bet, _from, state) do
     {:reply, state.bet, state}
+  end
+
+  def handle_cast(:shuffle, state) do
+    {:ok, game} = GameManager.shuffle_deck_of_card(state, 30)
+    {:noreply, game}
   end
 end

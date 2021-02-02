@@ -20,7 +20,7 @@ defmodule Cards.Deck do
   end
 
   def shuffle(cards, times) when times <= 0, do: shuffle(cards)
-  def shuffle(cards, times), do: shuffle(cards, times - 1)
+  def shuffle(cards, times), do: shuffle(cards) |> shuffle(times - 1)
 
   def pick_one([picked | other_cards]), do: %{card: picked, deck: other_cards}
 end

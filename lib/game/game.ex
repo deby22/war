@@ -1,5 +1,5 @@
 defmodule Game.Game do
-  defstruct bet: nil, cards: [], player_card: nil, croupier_card: nil
+  defstruct bet: nil, cards: [], player_card: nil, croupier_card: nil, shuffled_times: 0
   alias Game.Game
   alias Cards.Deck
 
@@ -8,7 +8,8 @@ defmodule Game.Game do
 
   def shuffle_deck_of_card(game, times \\ 30) do
     cards = Deck.shuffle(game.cards, times)
-    %Game{game | cards: cards}
+    game = %Game{game | cards: cards}
+    %Game{game | shuffled_times: game.shuffled_times + times}
   end
 
   def grab_player_card(game) do
