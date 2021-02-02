@@ -81,13 +81,35 @@ defmodule Game.GameManagerTest do
     assert 259 == Enum.count(game.cards)
   end
 
-  # test "game summary" do
-  #   player_card = Cards.Deck.create_card("spade", "2")
-  #   croupier_card = Cards.Deck.create_card("spade", "3")
-  #   {:ok, bet} = Bets.Bets.create_bet(%{"card-odd": "croupier"})
-  #   game = %Game.Game{bet: bet, player_card: player_card, croupier_card: croupier_card}
-  #   Game.Game.game_summary(game)
-  # end
+  test "game summary" do
+    bet = %{"card-odd": "croupier"}
+    {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.grab_player_card(game)
+    {:ok, game} = GameManager.grab_croupier_card(game)
+
+    {:ok, %{bet_summary: bet_summary, round_summary: round_summary}} =
+      GameManager.game_summary(game)
+
+    assert round_summary == "war"
+  end
+
+  test "round summary" do
+    bet = %{"card-odd": "war"}
+    {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.grab_player_card(game)
+    {:ok, game} = GameManager.grab_croupier_card(game)
+    player_card = Cards.Deck.create_card("spade", "10")
+    croupier_card = Cards.Deck.create_card("spade", "3")
+    game = %Game.Game{game | player_card: player_card}
+    game = %Game.Game{game | croupier_card: croupier_card}
+
+    {:ok, %{bet_summary: bet_summary, round_summary: round_summary}} =
+      GameManager.game_summary(game)
+
+    assert round_summary == "Round won: player"
+  end
 
   test "grab card before betting should return error" do
     {:ok, game} = GameManager.new_game()
