@@ -37,4 +37,13 @@ defmodule Game.GameServerTest do
     assert bet == nil
     assert msg == "Invalid card-odd. Allowed: [player croupier war]"
   end
+
+  test "shuffle deck of card" do
+    GameServer.start_link()
+    GameServer.new_bet(%{"card-odd": "invalid"})
+    GameServer.shuffle_cards()
+    assert 30 == GameServer.get_shuffled_times()
+    GameServer.shuffle_cards()
+    assert 60 == GameServer.get_shuffled_times()
+  end
 end

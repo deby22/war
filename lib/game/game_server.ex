@@ -19,7 +19,17 @@ defmodule Game.GameServer do
     GenServer.cast(@name, :shuffle)
   end
 
+  def get_shuffled_times do
+    GenServer.call(@name, :get_shuffled_times)
+  end
+
   # Server
+
+  def handle_call(:get_shuffled_times, _from, state) do
+    IO.inspect(state)
+    {:reply, state.shuffled_times, state}
+  end
+
   def handle_call({:new_bet, bet}, _from, state) do
     case GameManager.create_bet(state, bet) do
       {:ok, game} ->
