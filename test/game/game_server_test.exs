@@ -40,10 +40,30 @@ defmodule Game.GameServerTest do
 
   test "shuffle deck of card" do
     GameServer.start_link()
-    GameServer.new_bet(%{"card-odd": "invalid"})
+    GameServer.new_bet(%{"card-odd": "war"})
     GameServer.shuffle_cards()
     assert 30 == GameServer.get_shuffled_times()
     GameServer.shuffle_cards()
     assert 60 == GameServer.get_shuffled_times()
+  end
+
+  test "shuffle deck of card before bet should return error" do
+    GameServer.start_link()
+    GameServer.shuffle_cards()
+    assert 0 == GameServer.get_shuffled_times()
+  end
+
+  test "grab user card" do
+    GameServer.start_link()
+    GameServer.new_bet(%{"card-odd": "war"})
+    GameServer.shuffle_cards()
+    card = GameServer.grab_my_card()
+    assert card.power in 1..10
+  end
+
+  test "grab before bet should return error" do
+    GameServer.start_link()
+    msg = GameServer.grab_my_card()
+    assert msg == "Shuffle card before game"
   end
 end

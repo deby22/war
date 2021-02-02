@@ -38,7 +38,9 @@ defmodule Game.GameManagerTest do
   end
 
   test "game shuffle deck of card at least 30 times" do
+    bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.create_bet(game, bet)
     {:ok, game} = GameManager.shuffle_deck_of_card(game)
     assert 260 = Enum.count(game.cards)
   end
@@ -46,8 +48,8 @@ defmodule Game.GameManagerTest do
   test "grab user card should set player power and returns others 259 cards" do
     bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
-    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     card = Enum.at(game.cards, 0)
     {:ok, game} = GameManager.grab_player_card(game)
     assert card == game.player_card
@@ -67,7 +69,9 @@ defmodule Game.GameManagerTest do
   end
 
   test "grab croupier card before user card should return error and information" do
+    bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.create_bet(game, bet)
     {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:error, msg} = GameManager.grab_croupier_card(game)
     assert msg == "Player grab card first"
@@ -123,14 +127,21 @@ defmodule Game.GameManagerTest do
 
   test "grab card before betting should return error" do
     {:ok, game} = GameManager.new_game()
-    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:error, msg} = GameManager.grab_player_card(game)
     assert msg = "You can't grab card before bet"
   end
 
   test "grab card before shuffling should return error" do
+    bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.create_bet(game, bet)
     {:error, msg} = GameManager.grab_player_card(game)
     assert msg = "Shuffle card before game"
+  end
+
+  test "shuffling before generate bet should return error" do
+    {:ok, game} = GameManager.new_game()
+    {:error, msg} = GameManager.shuffle_deck_of_card(game)
+    assert msg == "Put bet before shuffling cards"
   end
 end

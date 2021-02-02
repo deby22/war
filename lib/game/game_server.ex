@@ -7,27 +7,25 @@ defmodule Game.GameServer do
   def init(_), do: GameManager.new_game()
 
   # Client
-  def new_bet(bet) when is_map(bet) do
-    GenServer.call(@name, {:new_bet, bet})
-  end
-
-  def get_bet do
-    GenServer.call(@name, :get_bet)
-  end
-
-  def shuffle_cards do
-    GenServer.cast(@name, :shuffle)
-  end
-
-  def get_shuffled_times do
-    GenServer.call(@name, :get_shuffled_times)
-  end
-
+  def new_bet(bet) when is_map(bet), do: GenServer.call(@name, {:new_bet, bet})
+  def get_bet, do: GenServer.call(@name, :get_bet)
+  def shuffle_cards, do: GenServer.call(@name, :shuffle)
+  def get_shuffled_times, do: GenServer.call(@name, :get_shuffled_times)
+  def grab_my_card, do: GenServer.call(@name, :grab_player_card)
   # Server
 
   def handle_call(:get_shuffled_times, _from, state) do
-    IO.inspect(state)
     {:reply, state.shuffled_times, state}
+  end
+
+  def handle_call(:grab_player_card, _from, state) do
+    case GameManager.grab_player_card(state) do
+      {:ok, game} ->
+        {:reply, game.player_card, game}
+
+      {:error, msg} ->
+        {:reply, msg, state}
+    end
   end
 
   def handle_call({:new_bet, bet}, _from, state) do
@@ -44,8 +42,13 @@ defmodule Game.GameServer do
     {:reply, state.bet, state}
   end
 
-  def handle_cast(:shuffle, state) do
-    {:ok, game} = GameManager.shuffle_deck_of_card(state, 30)
-    {:noreply, game}
+  def handle_call(:shuffle, _from, state) do
+    case GameManager.shuffle_deck_of_card(state, 30) do
+      {:ok, game} ->
+        {:reply, game.shuffled_times, game}
+
+      {:error, msg} ->
+        {:reply, msg, state}
+    end
   end
 end
