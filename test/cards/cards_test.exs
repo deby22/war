@@ -200,4 +200,12 @@ defmodule Cards.CardsTest do
     assert card == %Cards.Card{color: "black", power: 2, suit: "club", value: "2"}
     assert 51 == Enum.count(deck)
   end
+
+  test "shuffling card should returnes the same card with random order" do
+    new_deck = Deck.create_deck()
+    assert 52 = new_deck |> Deck.shuffle() |> Enum.count()
+    assert 52 = new_deck |> Deck.shuffle(10) |> Enum.count()
+    assert 52 = new_deck |> Deck.shuffle(30) |> Enum.count()
+  end
+
 end
