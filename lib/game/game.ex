@@ -1,5 +1,5 @@
 defmodule Game.Game do
-  defstruct bet: nil
+  defstruct bet: nil, cards: []
   alias Bets.Bets
 
   def new, do: %Game.Game{}
@@ -14,5 +14,9 @@ defmodule Game.Game do
       {:error, msg} ->
         {:error, msg}
     end
+  end
+
+  def create_deck_of_card(game) do
+    %Game.Game{game | cards: Cards.Deck.create_deck(5)}
   end
 end

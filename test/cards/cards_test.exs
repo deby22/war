@@ -207,4 +207,9 @@ defmodule Cards.CardsTest do
     assert 52 = new_deck |> Deck.shuffle(10) |> Enum.count()
     assert 52 = new_deck |> Deck.shuffle(30) |> Enum.count()
   end
+
+  test "create and merge few deck of card" do
+    deck = Deck.create_deck(10)
+    assert 520 == Enum.count(deck)
+  end
 end

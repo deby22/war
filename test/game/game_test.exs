@@ -25,7 +25,13 @@ defmodule Game.GameTest do
     game = %Game.Game{}
     {:error, msg} = Game.Game.create_bet(game, %{})
 
-    assert "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd" ==
-             msg
+    assert msg ==
+             "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
+  end
+
+  test "game create deck built from 5 original decks of card" do
+    game = Game.Game.new()
+    game = Game.Game.create_deck_of_card(game)
+    assert 260 == Enum.count(game.cards)
   end
 end
