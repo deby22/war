@@ -5,8 +5,6 @@ defmodule Bets.Bet do
             "color-player": nil,
             "suit-croupier": nil
 
-
-
   def validate_bet(bet = %Bets.Bet{}) do
     bet
     |> validate_suit_player()
@@ -18,12 +16,15 @@ defmodule Bets.Bet do
   end
 
   defp validate_at_least_one_bet(bet = %Bets.Bet{}) do
-    if !(bet."suit-player" || bet."suit-croupier" || bet."card-odd" || bet."color-croupier" || bet."color-player")  do
-        raise ValidationError, "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
+    if !(bet."suit-player" || bet."suit-croupier" || bet."card-odd" || bet."color-croupier" ||
+           bet."color-player") do
+      raise ValidationError,
+            "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
     else
-        bet
-      end
+      bet
+    end
   end
+
   defp validate_suit_player(bet = %Bets.Bet{"suit-player": suit})
        when suit == nil or suit in ~w"heart diamond club spade",
        do: bet

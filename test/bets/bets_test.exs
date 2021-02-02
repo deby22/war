@@ -81,6 +81,8 @@ defmodule Bets.BetsTest do
 
   test "create bet witout any position" do
     {:error, message} = Bets.create_bet(%{})
-    assert message == "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
+
+    assert message ==
+             "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
   end
 end
