@@ -46,6 +46,7 @@ defmodule Game.GameManagerTest do
   test "grab user card should set player power and returns others 259 cards" do
     bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.create_bet(game, bet)
     card = Enum.at(game.cards, 0)
     {:ok, game} = GameManager.grab_player_card(game)
@@ -57,6 +58,7 @@ defmodule Game.GameManagerTest do
     bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
     {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.grab_player_card(game)
     card = Enum.at(game.cards, 0)
     {:ok, game} = GameManager.grab_croupier_card(game)
@@ -66,6 +68,7 @@ defmodule Game.GameManagerTest do
 
   test "grab croupier card before user card should return error and information" do
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:error, msg} = GameManager.grab_croupier_card(game)
     assert msg == "Player grab card first"
     assert 260 == Enum.count(game.cards)
@@ -75,6 +78,7 @@ defmodule Game.GameManagerTest do
     bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
     {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.grab_player_card(game)
     {:error, msg} = GameManager.grab_player_card(game)
     assert msg == "You can't grab another Card. Its croupier turn."
@@ -85,8 +89,13 @@ defmodule Game.GameManagerTest do
     bet = %{"card-odd": "croupier"}
     {:ok, game} = GameManager.new_game()
     {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.grab_player_card(game)
     {:ok, game} = GameManager.grab_croupier_card(game)
+    player_card = Cards.Deck.create_card("spade", "3")
+    croupier_card = Cards.Deck.create_card("spade", "3")
+    game = %Game.Game{game | player_card: player_card}
+    game = %Game.Game{game | croupier_card: croupier_card}
 
     {:ok, %{bet_summary: bet_summary, round_summary: round_summary}} =
       GameManager.game_summary(game)
@@ -98,6 +107,7 @@ defmodule Game.GameManagerTest do
     bet = %{"card-odd": "war"}
     {:ok, game} = GameManager.new_game()
     {:ok, game} = GameManager.create_bet(game, bet)
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:ok, game} = GameManager.grab_player_card(game)
     {:ok, game} = GameManager.grab_croupier_card(game)
     player_card = Cards.Deck.create_card("spade", "10")
@@ -113,7 +123,14 @@ defmodule Game.GameManagerTest do
 
   test "grab card before betting should return error" do
     {:ok, game} = GameManager.new_game()
+    {:ok, game} = GameManager.shuffle_deck_of_card(game)
     {:error, msg} = GameManager.grab_player_card(game)
     assert msg = "You can't grab card before bet"
+  end
+
+  test "grab card before shuffling should return error" do
+    {:ok, game} = GameManager.new_game()
+    {:error, msg} = GameManager.grab_player_card(game)
+    assert msg = "Shuffle card before game"
   end
 end

@@ -18,6 +18,10 @@ defmodule Game.GameManager do
 
   def shuffle_deck_of_card(game, times \\ 30), do: {:ok, Game.shuffle_deck_of_card(game, times)}
 
+  def grab_player_card(game) when game.shuffled_times == 0 do
+    {:error, "Shuffle card before game"}
+  end
+
   def grab_player_card(game) when game.bet == nil do
     {:error, "You can't grab card before bet"}
   end
