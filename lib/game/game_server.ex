@@ -11,8 +11,31 @@ defmodule Game.GameServer do
   def get_bet, do: GenServer.call(@name, :get_bet)
   def shuffle_cards, do: GenServer.call(@name, :shuffle)
   def get_shuffled_times, do: GenServer.call(@name, :get_shuffled_times)
-  def grab_my_card, do: GenServer.call(@name, :grab_player_card)
+  def grab_player_card, do: GenServer.call(@name, :grab_player_card)
+  def grab_croupier_card, do: GenServer.call(@name, :grab_croupier_card)
+
   # Server
+
+  def handle_info(:show_result, state) do
+    {:ok, summary} = GameManager.game_summary(state)
+    IO.inspect(summary)
+    {:noreply, state}
+  end
+
+  defp show_result() do
+    Process.send_after(self(), :show_result, 3000)
+  end
+
+  def handle_call(:grab_croupier_card, _from, state) do
+    case GameManager.grab_croupier_card(state) do
+      {:ok, game} ->
+        show_result()
+        {:reply, game.croupier_card, game}
+
+      {:error, msg} ->
+        {:reply, msg, state}
+    end
+  end
 
   def handle_call(:get_shuffled_times, _from, state) do
     {:reply, state.shuffled_times, state}

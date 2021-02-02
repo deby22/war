@@ -57,13 +57,30 @@ defmodule Game.GameServerTest do
     GameServer.start_link()
     GameServer.new_bet(%{"card-odd": "war"})
     GameServer.shuffle_cards()
-    card = GameServer.grab_my_card()
-    assert card.power in 1..10
+    card = GameServer.grab_player_card()
+    assert card.power in 1..11
   end
 
   test "grab before bet should return error" do
     GameServer.start_link()
-    msg = GameServer.grab_my_card()
+    msg = GameServer.grab_player_card()
     assert msg == "Shuffle card before game"
+  end
+
+  test "grab croupier card before player should return error" do
+    GameServer.start_link()
+    GameServer.new_bet(%{"card-odd": "war"})
+    GameServer.shuffle_cards()
+    msg = GameServer.grab_croupier_card()
+    assert msg == "Player grab card first"
+  end
+
+  test "grab croupier card after player should return croupier card" do
+    GameServer.start_link()
+    GameServer.new_bet(%{"card-odd": "war"})
+    GameServer.shuffle_cards()
+    GameServer.grab_player_card()
+    card = GameServer.grab_croupier_card()
+    assert card.power in 1..11
   end
 end

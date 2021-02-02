@@ -39,7 +39,9 @@ defmodule Game.GameManager do
     {:ok,
      %{
        round_summary: round_summary(game),
-       bet_summary: bet_summary(game)
+       bet_summary: bet_summary(game),
+       player_card: game.player_card,
+       croupier_card: game.croupier_card
      }}
   end
 
