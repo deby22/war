@@ -2,6 +2,7 @@ defmodule Cards.Card do
   @enforce_keys [:color, :suit, :value, :power]
 
   defstruct color: nil, suit: nil, value: nil, power: nil
+
   def new(suit, value) do
     %Cards.Card{
       suit: suit,
