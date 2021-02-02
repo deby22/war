@@ -29,10 +29,11 @@ defmodule Game.GameManager do
   def grab_player_card(game), do: {:ok, Game.grab_player_card(game)}
 
   def game_summary(game) do
-    %{
-      round_summary: round_summary(game),
-      bet_summary: bet_summary(game)
-    }
+    {:ok,
+     %{
+       round_summary: round_summary(game),
+       bet_summary: bet_summary(game)
+     }}
   end
 
   defp bet_summary(game) do

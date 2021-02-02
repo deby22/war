@@ -85,4 +85,46 @@ defmodule Bets.BetsTest do
     assert message ==
              "At least one bet is required. Try [color-player, color-croupier, suit-player, suit-croupier, card-odd"
   end
+
+  test "bet summary with all positive" do
+    {:ok, bet} =
+      Bets.create_bet(%{
+        "card-odd": "player",
+        "suit-player": "diamond",
+        "color-croupier": "red",
+        "color-player": "red",
+        "suit-croupier": "diamond"
+      })
+
+    player_card = %{color: "red", suit: "diamond"}
+    croupier_card = %{color: "red", suit: "diamond"}
+    card_odd = "player"
+    summary = Bets.summary(bet, player_card, croupier_card, card_odd)
+    assert summary."card-odd" == true
+    assert summary."suit-player" == true
+    assert summary."suit-croupier" == true
+    assert summary."color-player" == true
+    assert summary."color-croupier" == true
+  end
+
+  test "bet summary with all negative" do
+    {:ok, bet} =
+      Bets.create_bet(%{
+        "card-odd": "war",
+        "suit-player": "club",
+        "color-croupier": "black",
+        "color-player": "black",
+        "suit-croupier": "spade"
+      })
+
+    player_card = %{color: "red", suit: "diamond"}
+    croupier_card = %{color: "red", suit: "diamond"}
+    card_odd = "player"
+    summary = Bets.summary(bet, player_card, croupier_card, card_odd)
+    assert summary."card-odd" == false
+    assert summary."suit-player" == false
+    assert summary."suit-croupier" == false
+    assert summary."color-player" == false
+    assert summary."color-croupier" == false
+  end
 end
