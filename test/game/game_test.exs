@@ -63,4 +63,12 @@ defmodule Game.GameTest do
     assert msg == "Player grab card first"
     assert 260 == Enum.count(game.cards)
   end
+
+  test "player cannot grab two cards in a row" do
+    game = Game.Game.new()
+    {:ok, game} = Game.Game.grab_player_card(game)
+    {:error, msg} = Game.Game.grab_player_card(game)
+    assert msg == "You can't grab another Card. Its croupier turn."
+    assert 259 == Enum.count(game.cards)
+  end
 end

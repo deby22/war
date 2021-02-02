@@ -23,6 +23,10 @@ defmodule Game.Game do
     %Game.Game{game | cards: cards}
   end
 
+  def grab_player_card(game) when game.player_value != nil do
+    {:error, "You can't grab another Card. Its croupier turn."}
+  end
+
   def grab_player_card(game) do
     [grabbed | others] = game.cards
     game = %Game.Game{game | cards: others}
