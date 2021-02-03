@@ -33,3 +33,19 @@ Walidacja kart i zakładu
     	- Status
 		- podjęta
 
+Dodanie GameManager jako API na Game
+	- Data:
+		- 02.02.2020 (15:00)
+	- Kontekst:
+		- Game jest strukturą z prostą logiką obstawiania zakładu, tasowania kart, pobieraniu karty krupiera i karty gracza
+		- Walidacja kolejności spowodowałaby, że sama gra powinna mieć znacznie większą odpowiedzialność
+		- Wprowadzenie warstwy pośredniej, która pilnowałaby kolejności znacznie uprości moduł gry
+		- Warstwa pośrednia często będzie jedynie proxy na grę
+		- Jednolity interfejs. Gra zawsze zwraca grę, a Manager tuplę {:ok, gra}, lub {:error, message}
+	- Decyzja:
+		- Warstwa pośrednia została wprowadzonia
+	- Skutki:
+		- Moduł gry pozbawiony zbętnej logiki
+		- (duży minus) Każda nowa funkcjonalność musi być wprowadzona zarówno w Game jak i GameManager
+	- Status:
+		-podjęta
