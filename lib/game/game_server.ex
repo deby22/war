@@ -4,8 +4,10 @@ defmodule Game.GameServer do
   alias Game.GameManager
 
   def start_link do
-    IO.puts("Welcome to CardGame called `War`")
-    IO.puts("Put new Bet")
+    IO.puts(" ----------------------------------")
+    IO.puts("| Welcome to CardGame called `War` |")
+    IO.puts("|          Put your Bet            |")
+    IO.puts(" ----------------------------------")
     GenServer.start_link(__MODULE__, :ok, name: @name)
   end
 
