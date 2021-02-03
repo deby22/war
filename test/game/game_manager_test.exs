@@ -2,7 +2,7 @@ defmodule Game.GameManagerTest do
   use ExUnit.Case
   alias Round.Round
   alias Game.GameManager
-  doctest War
+  doctest Game
 
   test "create new_game empty Game" do
     {:ok, game} = GameManager.new_game()

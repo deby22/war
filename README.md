@@ -1,6 +1,41 @@
 # War
 
-**TODO: Add description**
+## Description
+
+Simulate War Game with simple bet.
+User can put bet, shuffling card and play agains croupier.
+
+# Important
+
+* Bet is required before the play
+* Before grabbing card user have to tell croupier to shuffling the card
+* Player grab card first.
+* After 3 seconds of grabbing card by croupier player will see results
+* After Game starts new game
+
+## Usage
+
+Open iex terminal
+```bash
+iex -S mix
+```
+
+```elixir
+# Start supervisor 
+{:ok, pid} = Game.Application.start([], [])
+
+# put new bet
+Game.new_bet(%{"card-odd": "war"})
+
+# shuffling card before round
+Game.shuffle_cards
+
+# grab player card
+Game.grab_player_card
+
+# grab croupier card
+Game.grab_croupier_card
+```
 
 ## Installation
 

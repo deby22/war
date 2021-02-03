@@ -2,7 +2,7 @@ defmodule Cards.CardsTest do
   use ExUnit.Case
   alias Cards.Card
   alias Cards.Deck
-  doctest War
+  doctest Game
 
   test "Create a spades cards" do
     # spades - black

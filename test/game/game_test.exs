@@ -1,7 +1,7 @@
 defmodule Game.GameTest do
   use ExUnit.Case
   alias Game.Game
-  doctest War
+  doctest Game
 
   test "create new_game empty Game" do
     game = Game.new()

@@ -1,7 +1,7 @@
 defmodule Round.RoundTest do
   use ExUnit.Case
   alias Round.Round
-  doctest War
+  doctest Game
 
   test "player won" do
     assert "player" == Round.play(10, 1)

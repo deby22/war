@@ -1,7 +1,7 @@
 defmodule Bets.BetsTest do
   use ExUnit.Case
   alias Bets.Bets
-  doctest War
+  doctest Game
 
   test "create bet when given valid suit-player" do
     {:ok, bet} = Bets.create_bet(%{"suit-player": "diamond"})

@@ -3,7 +3,21 @@ defmodule Game.GameServer do
   @name GameServer
   alias Game.GameManager
 
-  def start_link, do: GenServer.start_link(__MODULE__, :ok, name: @name)
+  def start_link do
+    IO.puts("Welcome to CardGame called `War`")
+    IO.puts("Put new Bet")
+    GenServer.start_link(__MODULE__, :ok, name: @name)
+  end
+
+  @spec init(any) ::
+          {:ok,
+           %Game.Game{
+             bet: nil,
+             cards: list,
+             croupier_card: nil,
+             player_card: nil,
+             shuffled_times: 0
+           }}
   def init(_), do: GameManager.new_game()
 
   # Client
@@ -19,7 +33,7 @@ defmodule Game.GameServer do
   def handle_info(:show_result, state) do
     {:ok, summary} = GameManager.game_summary(state)
     IO.inspect(summary)
-    {:noreply, state}
+    {:stop, :normal, state}
   end
 
   defp show_result() do
