@@ -1,6 +1,5 @@
 defmodule Game.GameManagerTest do
   use ExUnit.Case
-  alias Round.Round
   alias Game.GameManager
   doctest Game
 
@@ -101,8 +100,7 @@ defmodule Game.GameManagerTest do
     game = %Game.Game{game | player_card: player_card}
     game = %Game.Game{game | croupier_card: croupier_card}
 
-    {:ok, %{bet_summary: bet_summary, round_summary: round_summary}} =
-      GameManager.game_summary(game)
+    {:ok, %{bet_summary: _, round_summary: round_summary}} = GameManager.game_summary(game)
 
     assert round_summary == "war"
   end
@@ -119,16 +117,9 @@ defmodule Game.GameManagerTest do
     game = %Game.Game{game | player_card: player_card}
     game = %Game.Game{game | croupier_card: croupier_card}
 
-    {:ok, %{bet_summary: bet_summary, round_summary: round_summary}} =
-      GameManager.game_summary(game)
+    {:ok, %{bet_summary: _, round_summary: round_summary}} = GameManager.game_summary(game)
 
     assert round_summary == "Round won: player"
-  end
-
-  test "grab card before betting should return error" do
-    {:ok, game} = GameManager.new_game()
-    {:error, msg} = GameManager.grab_player_card(game)
-    assert msg = "You can't grab card before bet"
   end
 
   test "grab card before shuffling should return error" do
@@ -136,7 +127,7 @@ defmodule Game.GameManagerTest do
     {:ok, game} = GameManager.new_game()
     {:ok, game} = GameManager.create_bet(game, bet)
     {:error, msg} = GameManager.grab_player_card(game)
-    assert msg = "Shuffle card before game"
+    assert msg == "Shuffle card before game"
   end
 
   test "shuffling before generate bet should return error" do

@@ -7,7 +7,6 @@ defmodule Game.GameServerTest do
   test "create valid bet with card-odd" do
     GameServer.start_link()
     Game.new_bet(%{"card-odd": "war"})
-    bet = Game.get_bet()
     assert Bets.Bets.create_bet(%{"card-odd": "war"})
   end
 

@@ -3,11 +3,15 @@ defmodule Game.GameServer do
   @name GameServer
   alias Game.GameManager
 
-  def start_link do
+  defp welcome_msg do
     IO.puts(" ----------------------------------")
     IO.puts("| Welcome to CardGame called `War` |")
     IO.puts("|          Put your Bet            |")
     IO.puts(" ----------------------------------")
+  end
+
+  def start_link do
+    welcome_msg()
     GenServer.start_link(__MODULE__, :ok, name: @name)
   end
 
@@ -82,7 +86,7 @@ defmodule Game.GameServer do
   end
 
   def handle_call(:shuffle, _from, state) do
-    case GameManager.shuffle_deck_of_card(state, 30) do
+    case GameManager.shuffle_deck_of_card(state) do
       {:ok, game} ->
         {:reply, game.shuffled_times, game}
 

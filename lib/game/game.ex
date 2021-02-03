@@ -6,7 +6,8 @@ defmodule Game.Game do
   def new, do: %Game{cards: Deck.create_deck(5)}
   def create_bet(game, bet), do: %Game{game | bet: bet}
 
-  def shuffle_deck_of_card(game, times \\ 30) do
+  def shuffle_deck_of_card(game) do
+    times = 30
     cards = Deck.shuffle(game.cards, times)
     game = %Game{game | cards: cards}
     %Game{game | shuffled_times: game.shuffled_times + times}
